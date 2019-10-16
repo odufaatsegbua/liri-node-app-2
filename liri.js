@@ -1,8 +1,9 @@
-// this code is required to
+// these codes are required to access all the packages we'll be using
 require("dotenv").config();
 var Spotify = require('node-spotify-api');
 var keys = require("./keys.js");
 var axios = require('axios');
+var FsNode = require('fs-node');
  
 
 var spotify = new Spotify({
@@ -64,10 +65,10 @@ function spotifyThis() {
     console.log("Year: " +response.data.Year);
     console.log("MPAA Rating: " +response.data.Rated);
     console.log("Actors: " +response.data.Actors);
-    console.log(response.data.Plot);
-    console.log(response.data.Language);
-    console.log(response.data.Ratings[1]);
-    console.log(response.data.imdbRating);
+    console.log("Plot: " +response.data.Plot);
+    console.log("Language: " +response.data.Language);
+    console.log("Rotten Tomatoes Rating: " +response.data.Ratings[1]);
+    console.log("IMDB Rating: " +response.data.imdbRating);
 
 
   })
@@ -89,10 +90,9 @@ function spotifyThis() {
      // handle success
      for (let i = 0; i < response.data.length; i++) {
        const show = response.data[i];
-       console.log(show.venue.name)
-       console.log(show.venue.country)
-      //  show.datetime
-
+       console.log(show.venue.name);
+       console.log(show.venue.country);
+       console.log(show.datetime);
      }
     
    })
@@ -104,7 +104,9 @@ function spotifyThis() {
      // always executed
    });
  }
- 
+  function whatever(){
+
+  }
 
 
 
