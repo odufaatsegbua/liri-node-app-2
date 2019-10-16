@@ -3,7 +3,7 @@ require("dotenv").config();
 var Spotify = require('node-spotify-api');
 var keys = require("./keys.js");
 var axios = require('axios');
-var FsNode = require('fs-node');
+var fs = require('fs');
  
 
 var spotify = new Spotify({
@@ -14,25 +14,28 @@ var spotify = new Spotify({
 var actionCommand = process.argv[2];
 var commandResult = process.argv[3];
 
-switch (actionCommand) {
+switchCommands(actionCommand,commandResult);
+function switchCommands(actionCommand,commandResult) {
+  switch (actionCommand) {
     case "concert-this":
-        concertThis();
+        concertThis(commandResult);
         break;
 
     case "spotify-this-song":
-        spotifyThis()
+        spotifyThis(commandResult)
         break;
 
     case "movie-this":
-        movieThis()
+        movieThis(commandResult)
         break;
 
     case "do-what-it-says":
-        whatever();
+        whatever(commandResult);
         break;
 }
+};
 
-function spotifyThis() {
+function spotifyThis(commandResult) {
     console.log("spotify")
     spotify.search({ type: 'track', query: commandResult }, function (err, data) {
         if (err) {
@@ -47,7 +50,7 @@ function spotifyThis() {
 }
 
   // axios.get('http://img.omdbapi.com/?apikey=trilogy&t=up')
- function movieThis(){
+ function movieThis(commandResult){
   var queryUrl = "http://www.omdbapi.com/?t=" + commandResult + "&y=&plot=short&apikey=trilogy";
   axios.get(queryUrl)
   .then(function (response) {
@@ -81,7 +84,7 @@ function spotifyThis() {
   });
  }
 
- function concertThis(){
+ function concertThis(commandResult){
   // var queryUrl = "https://rest.bandsintown.com/artists/chris%20brown/events?app_id=codingbootcamp"
   console.log(encodeURIComponent(commandResult))
   var queryUrl = "https://rest.bandsintown.com/artists/" + encodeURIComponent(commandResult) + "/events?app_id=codingbootcamp"
@@ -105,7 +108,10 @@ function spotifyThis() {
    });
  }
   function whatever(){
-
+fs.readFile("random.txt","utf8",function(err,data){
+  var queryStrings = data.split(",")
+  switchCommands(queryStrings[0], queryStrings[1])
+})
   }
 
 
